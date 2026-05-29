@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profit Booster — Twenty Business Training</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --dark:#0A1710;--dark2:#0E2116;--line-dark:#20422C;--accent:#34E36B;--accent-deep:#1FA85A;
+  --muted:#6FAE86;--head:#16401F;--total:#E7F2D8;--total-line:#C2D9A4;--total-txt:#173404;
+  --input:#FFFFFF;--input-line:#C9D6BD;--page:#EDF0E8;--card:#FFFFFF;--card-line:#E3E7DC;
+  --txt:#1A241B;--txt-soft:#5C6A59;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Hanken Grotesk',sans-serif;background:var(--page);color:var(--txt);
+  line-height:1.5;-webkit-font-smoothing:antialiased;padding:28px 16px 56px}
+.wrap{max-width:880px;margin:0 auto}
+.tnum{font-variant-numeric:tabular-nums}
+
+.hero{background:var(--dark);border-radius:18px;padding:30px 34px 26px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;
+  border:1px solid var(--line-dark);border-radius:50%;opacity:.5}
+.kicker{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.title{font-family:'Archivo',sans-serif;font-weight:800;font-size:34px;color:#fff;letter-spacing:-.01em;line-height:1.04;margin:6px 0 2px}
+.subtitle{color:var(--muted);font-size:14px;margin-bottom:18px}
+.seg-line{display:flex;align-items:center;gap:12px;margin-bottom:24px;position:relative;z-index:1}
+.seg-line .sl{font-size:12.5px;color:var(--muted);font-weight:600}
+.seg-wrap{display:inline-flex;background:var(--dark2);border:1px solid var(--line-dark);border-radius:10px;padding:3px;gap:3px}
+.seg{background:transparent;border:none;color:var(--muted);font-family:'Hanken Grotesk',sans-serif;font-weight:600;font-size:13px;
+  padding:6px 18px;border-radius:7px;cursor:pointer;transition:background .15s ease,color .15s ease}
+.seg.on{background:var(--accent);color:#06210f}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.metric .mlabel{font-size:12.5px;color:var(--muted);margin-bottom:6px}
+.metric .mval{font-family:'Archivo',sans-serif;font-weight:700;font-size:32px;color:var(--accent);letter-spacing:-.01em;transition:opacity .18s ease}
+.metric.neg .mval{color:#ff7a7a}
+.inputs-row{display:flex;gap:30px;flex-wrap:wrap;margin-top:24px;padding-top:20px;border-top:1px solid var(--line-dark)}
+.inp-field{display:flex;align-items:center;gap:12px}
+.inp-field label{color:#fff;font-weight:600;font-size:15px}
+.inp-field .euro{color:var(--muted);font-size:17px;font-weight:600}
+.darkinput{background:var(--dark2);border:1px solid var(--line-dark);border-radius:10px;color:#fff;
+  font-family:'Archivo',sans-serif;font-weight:700;font-size:20px;padding:8px 14px;width:140px;outline:none;
+  font-variant-numeric:tabular-nums;transition:border-color .15s ease}
+.darkinput:focus{border-color:var(--accent)}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+.card{background:var(--card);border:1px solid var(--card-line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.card-head{background:var(--head);color:#fff;font-weight:600;font-size:13.5px;padding:11px 16px}
+.card-head small{display:block;color:#a9d3b3;font-weight:400;font-size:11.5px;margin-top:1px}
+.card-body{padding:6px 16px 14px;flex:1}
+.line{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid #f0f2ec;font-size:13.5px}
+.line:last-child{border-bottom:none}
+.line .lbl{color:var(--txt-soft);flex:1}
+.line .val{font-weight:600;font-variant-numeric:tabular-nums;color:var(--txt)}
+.cell{width:84px;text-align:right;border:1px solid var(--input-line);border-radius:7px;padding:5px 9px;
+  font-family:'Hanken Grotesk',sans-serif;font-size:13.5px;font-weight:600;color:var(--txt);background:var(--input);
+  outline:none;font-variant-numeric:tabular-nums;transition:border-color .15s ease,box-shadow .15s ease}
+.cell:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(52,227,107,.16)}
+.namecell{flex:1;text-align:left;border:1px dashed var(--input-line);border-radius:7px;padding:5px 9px;
+  font-family:'Hanken Grotesk',sans-serif;font-size:13.5px;font-weight:500;color:var(--txt);background:#fbfdf8;outline:none;min-width:0}
+.namecell:focus{border-style:solid;border-color:var(--accent)}
+.sub{display:flex;justify-content:space-between;align-items:center;background:var(--total);border:1px solid var(--total-line);
+  border-radius:8px;padding:9px 12px;margin-top:10px;font-weight:700;color:var(--total-txt);font-size:14px}
+.sub .val{font-variant-numeric:tabular-nums}
+.addbtn{margin-top:10px;width:100%;background:transparent;border:1px dashed var(--input-line);border-radius:8px;
+  padding:7px;font-family:'Hanken Grotesk',sans-serif;font-size:13px;font-weight:600;color:var(--accent-deep);
+  cursor:pointer;transition:background .15s ease,border-color .15s ease}
+.addbtn:hover{background:#f2f8ea;border-color:var(--accent-deep)}
+.ore-head{display:flex;gap:8px;font-size:11px;color:var(--txt-soft);text-transform:uppercase;letter-spacing:.04em;padding:6px 0 2px}
+.ore-head .h-nm{flex:1}.ore-head .h-c{width:60px;text-align:center}.ore-head .h-o{width:60px;text-align:right}
+.ore-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f0f2ec}
+.ore-row .cell{width:60px}
+.ore-row .out{width:60px;text-align:right;font-weight:600;font-variant-numeric:tabular-nums;font-size:13.5px}
+
+.full{grid-column:1 / -1}
+.result-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:14px 16px}
+.rcell{background:#f6f8f1;border-radius:10px;padding:11px 13px}
+.rcell .rl{font-size:12px;color:var(--txt-soft);margin-bottom:3px}
+.rcell .rv{font-weight:700;font-size:18px;font-variant-numeric:tabular-nums;color:var(--txt)}
+
+.proj-top{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:14px 16px 4px}
+.proj-top .qctl{flex:1;min-width:220px}
+.toplbl{display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:8px}
+.toplbl b{font-family:'Archivo',sans-serif;color:var(--accent-deep);font-size:16px}
+input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:6px;background:#dfe6d6;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;
+  background:var(--accent);border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.18);cursor:pointer}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--accent);border:3px solid #fff;cursor:pointer}
+.proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:6px 16px 16px}
+.pcell{background:#f6f8f1;border-radius:10px;padding:12px 14px}
+.pcell.hi{background:var(--dark)}
+.pcell .pl{font-size:12px;color:var(--txt-soft);margin-bottom:3px}
+.pcell.hi .pl{color:var(--muted)}
+.pcell .pv{font-weight:700;font-size:20px;font-variant-numeric:tabular-nums;color:var(--txt)}
+.pcell.hi .pv{color:var(--accent);font-family:'Archivo',sans-serif}
+
+.whatif{border:2px solid var(--accent)}
+.wi-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:16px}
+.wi-control{flex:1;min-width:240px}
+.wi-out{background:#f6fbef;border:1px solid var(--total-line);border-radius:12px;padding:14px 20px;text-align:center;min-width:190px}
+.wi-out .wol{font-size:12.5px;color:var(--txt-soft)}
+.wi-out .wov{font-family:'Archivo',sans-serif;font-weight:800;font-size:30px;color:var(--total-txt);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.note{font-size:12px;color:var(--txt-soft);padding:0 16px 14px}
+.legend{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--txt-soft);margin:16px 2px 0}
+.legend .sw{width:13px;height:13px;border:1px dashed var(--input-line);border-radius:3px;background:#fbfdf8}
+
+@media(max-width:680px){
+  .grid{grid-template-columns:1fr}.metrics{gap:8px}.metric .mval{font-size:25px}
+  .result-grid{grid-template-columns:1fr}.proj-grid{grid-template-columns:1fr}.title{font-size:27px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="kicker">Twenty Business Training</div>
+    <div class="title">Profit Booster</div>
+    <div class="subtitle">Marginalità reale · punto di pareggio · proiezione su volume</div>
+    <div class="seg-line">
+      <span class="sl">La tua attività vende</span>
+      <div class="seg-wrap">
+        <button class="seg on" data-m="servizi" onclick="setMode('servizi')">Servizi</button>
+        <button class="seg" data-m="prodotti" onclick="setMode('prodotti')">Prodotti</button>
+      </div>
+    </div>
+    <div class="metrics">
+      <div class="metric" id="m-margine"><div class="mlabel">Margine per unità</div><div class="mval tnum" id="o-margine">€310</div></div>
+      <div class="metric"><div class="mlabel">Margine %</div><div class="mval tnum" id="o-pct">31,0%</div></div>
+      <div class="metric"><div class="mlabel">Punto di pareggio</div><div class="mval tnum" id="o-breakeven">8</div></div>
+    </div>
+    <div class="inputs-row">
+      <div class="inp-field"><label>Prezzo</label><span class="euro">€</span>
+        <input class="darkinput" type="number" id="prezzo" value="1000" min="0" step="10"></div>
+      <div class="inp-field"><label id="qty-label">Quantità venduta</label>
+        <input class="darkinput" type="number" id="quantita" value="30" min="1" step="1"></div>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-head">Costi variabili per unità<small>scalano con ogni vendita</small></div>
+      <div class="card-body">
+        <div class="line"><span class="lbl">Provvigione venditore</span>
+          <input class="cell" style="width:54px" type="number" id="provv" value="15" min="0" step="0.5"><span style="color:var(--txt-soft);font-size:12px">%</span>
+          <span class="val" id="o-provv">€150</span></div>
+        <div class="line"><span class="lbl">CAC — acquisizione cliente</span>
+          <input class="cell" type="number" id="cac" data-var value="200" min="0" step="10"></div>
+        <div class="line"><span class="lbl" id="prod-line-lbl">Erogazione <em style="font-style:normal;color:#9aa897">(da ore-uomo)</em></span>
+          <span class="val" id="o-prod">€180</span></div>
+        <div class="line"><span class="lbl">Supporto cliente post-vendita</span>
+          <input class="cell" type="number" data-var value="50" min="0" step="5"></div>
+        <div id="var-extra"></div>
+        <button class="addbtn" onclick="addVar()">+ Aggiungi voce variabile</button>
+        <div class="sub"><span>Totale costo variabile / unità</span><span class="val" id="o-var">€580</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head" id="prod-head">Ore / uomo<small id="prod-sub">dettaglio del costo di erogazione</small></div>
+      <div class="card-body">
+        <div class="ore-head"><span class="h-nm" id="h-name">Risorsa</span><span class="h-c" id="h-q">Ore</span><span class="h-c" id="h-u">€/ora</span><span class="h-o">Costo</span></div>
+        <div id="ore-list"></div>
+        <button class="addbtn" id="prod-addbtn" onclick="addProd('',null,null)">+ Aggiungi figura</button>
+        <div class="sub"><span id="prod-total-lbl">Totale ore / uomo</span><span class="val" id="o-ore">€180</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">Costi fissi (totali del periodo)<small>si dividono sulla quantità venduta</small></div>
+      <div class="card-body">
+        <div id="fix-list"></div>
+        <button class="addbtn" onclick="addFix('',null)">+ Aggiungi costo fisso</button>
+        <div class="sub"><span>Totale costi fissi</span><span class="val" id="o-fix">€3.300</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">Risultato per unità</div>
+      <div class="result-grid">
+        <div class="rcell"><div class="rl">Quota costi fissi / unità</div><div class="rv tnum" id="r-quota">€110</div></div>
+        <div class="rcell"><div class="rl">Costo pieno / unità</div><div class="rv tnum" id="r-pieno">€690</div></div>
+        <div class="rcell"><div class="rl">Margine di contribuzione / unità</div><div class="rv tnum" id="r-contrib">€420</div></div>
+        <div class="rcell"><div class="rl">ROI acquisizione</div><div class="rv tnum" id="r-roi">81,6%</div></div>
+      </div>
+    </div>
+
+    <div class="card full">
+      <div class="card-head">Proiezione su volume<small>quanto margini in base alle unità vendute</small></div>
+      <div class="proj-top">
+        <div class="qctl">
+          <div class="toplbl"><span>Quantità venduta</span><b id="q-out">30</b></div>
+          <input type="range" id="q-slider" min="1" max="200" value="30" step="1">
+        </div>
+      </div>
+      <div class="proj-grid">
+        <div class="pcell"><div class="pl">Ricavi totali</div><div class="pv tnum" id="p-ricavi">€30.000</div></div>
+        <div class="pcell"><div class="pl">Costi totali</div><div class="pv tnum" id="p-costi">€20.700</div></div>
+        <div class="pcell hi"><div class="pl">Margine totale</div><div class="pv tnum" id="p-margine">€9.300</div></div>
+      </div>
+    </div>
+
+    <div class="card whatif full">
+      <div class="card-head">Simulatore what-if<small>il prezzo minimo per il margine che vuoi ottenere</small></div>
+      <div class="wi-row">
+        <div class="wi-control">
+          <div class="toplbl"><span>Margine obiettivo</span><b id="wi-target">30%</b></div>
+          <input type="range" id="target" min="0" max="80" value="30" step="1">
+        </div>
+        <div class="wi-out"><div class="wol">Prezzo minimo consigliato</div><div class="wov tnum" id="wi-prezzo">€982</div></div>
+      </div>
+      <div class="note">Ipotesi: % di provvigione, costi variabili e costi fissi restano invariati al variare del prezzo.</div>
+    </div>
+
+  </div>
+
+  <div class="legend"><span class="sw"></span> I campi modificabili (valori e nomi delle voci) sono quelli da compilare · tutto il resto si calcola da solo.</div>
+</div>
+
+<script>
+const eur=n=>isFinite(n)?"€"+Math.round(n).toLocaleString("it-IT"):"—";
+const pct=n=>isFinite(n)?n.toLocaleString("it-IT",{minimumFractionDigits:1,maximumFractionDigits:1})+"%":"—";
+const $=id=>document.getElementById(id);
+const flash=el=>{el.style.opacity=.35;requestAnimationFrame(()=>{el.style.opacity=1});};
+function row(html){const d=document.createElement('div');d.innerHTML=html.trim();return d.firstChild;}
+
+let mode='servizi';
+const unitWord=()=>mode==='prodotti'?'pz':'unità';
+const CFG={
+  servizi:{head:'Ore / uomo',sub:'dettaglio del costo di erogazione',cName:'Risorsa',cQ:'Ore',cU:'€/ora',
+    add:'+ Aggiungi figura',total:'Totale ore / uomo',
+    prodLine:'Erogazione <em style="font-style:normal;color:#9aa897">(da ore-uomo)</em>',
+    rows:[['Strategist',10,10],['Project manager',5,10],['Back office',3,10]]},
+  prodotti:{head:'Costo del prodotto (COGS)',sub:'materiali e produzione per unità',cName:'Voce',cQ:'Q.tà',cU:'€/unità',
+    add:'+ Aggiungi voce',total:'Totale costo prodotto',
+    prodLine:'Costo prodotto <em style="font-style:normal;color:#9aa897">(da COGS)</em>',
+    rows:[['Materie prime',1,110],['Lavorazione / assemblaggio',1,40],['Packaging',1,8],['Spedizione',1,22]]}
+};
+
+function addProd(name,q,u){
+  const r=row(`<div class="ore-row">
+    <input class="namecell" type="text" placeholder="Nuova voce…" value="${name||''}">
+    <input class="cell" type="number" data-pq min="0" value="${q??''}">
+    <input class="cell" type="number" data-pu min="0" value="${u??''}">
+    <span class="out" data-pout>€0</span></div>`);
+  $("ore-list").appendChild(r);
+  r.querySelectorAll('input').forEach(i=>i.addEventListener('input',calc)); calc();
+}
+function addVar(name,v){
+  const r=row(`<div class="line">
+    <input class="namecell" type="text" placeholder="Nuova voce variabile…" value="${name||''}">
+    <input class="cell" type="number" data-var min="0" value="${v??''}"></div>`);
+  $("var-extra").appendChild(r);
+  r.querySelectorAll('input').forEach(i=>i.addEventListener('input',calc)); calc();
+}
+function addFix(name,v){
+  const r=row(`<div class="line">
+    <input class="namecell" type="text" placeholder="Nuovo costo fisso…" value="${name||''}">
+    <input class="cell" type="number" data-fix min="0" value="${v??''}"></div>`);
+  $("fix-list").appendChild(r);
+  r.querySelectorAll('input').forEach(i=>i.addEventListener('input',calc)); calc();
+}
+
+function setMode(m){
+  mode=m;
+  document.querySelectorAll('.seg').forEach(b=>b.classList.toggle('on',b.dataset.m===m));
+  const c=CFG[m];
+  $("prod-head").innerHTML=`${c.head}<small id="prod-sub">${c.sub}</small>`;
+  $("h-name").textContent=c.cName; $("h-q").textContent=c.cQ; $("h-u").textContent=c.cU;
+  $("prod-addbtn").textContent=c.add; $("prod-total-lbl").textContent=c.total;
+  $("prod-line-lbl").innerHTML=c.prodLine;
+  $("ore-list").innerHTML='';
+  c.rows.forEach(r=>addProd(r[0],r[1],r[2]));
+  calc();
+}
+
+function calc(){
+  const P=parseFloat($("prezzo").value)||0;
+  const Q=Math.max(1,parseFloat($("quantita").value)||1);
+  const provvPct=(parseFloat($("provv").value)||0)/100;
+  const cac=parseFloat($("cac").value)||0;
+
+  let ore=0;
+  document.querySelectorAll('.ore-row').forEach(r=>{
+    const q=parseFloat(r.querySelector('[data-pq]').value)||0;
+    const u=parseFloat(r.querySelector('[data-pu]').value)||0;
+    r.querySelector('[data-pout]').textContent=eur(q*u); ore+=q*u;
+  });
+  const produzione=ore;
+
+  let varNonPct=produzione;
+  document.querySelectorAll('[data-var]').forEach(el=>varNonPct+=parseFloat(el.value)||0);
+  const provv=provvPct*P;
+  const varPerUnit=provv+varNonPct;
+
+  let fissi=0;
+  document.querySelectorAll('[data-fix]').forEach(el=>fissi+=parseFloat(el.value)||0);
+
+  const quota=fissi/Q;
+  const pieno=varPerUnit+quota;
+  const margine=P-pieno;
+  const marginePct=P>0?margine/P*100:NaN;
+  const contrib=P-varPerUnit;
+  const breakeven=contrib>0?Math.ceil(fissi/contrib):NaN;
+  const roi=(produzione+cac)>0?margine/(produzione+cac)*100:NaN;
+
+  $("o-provv").textContent=eur(provv);
+  $("o-prod").textContent=eur(produzione);
+  $("o-var").textContent=eur(varPerUnit);
+  $("o-ore").textContent=eur(ore);
+  $("o-fix").textContent=eur(fissi);
+
+  $("o-margine").textContent=eur(margine);
+  $("o-pct").textContent=pct(marginePct);
+  $("o-breakeven").textContent=isFinite(breakeven)?breakeven+" "+unitWord():"—";
+  $("m-margine").classList.toggle("neg",margine<0);
+
+  $("r-quota").textContent=eur(quota);
+  $("r-pieno").textContent=eur(pieno);
+  $("r-contrib").textContent=eur(contrib);
+  $("r-roi").textContent=pct(roi);
+
+  $("q-out").textContent=Q+" "+unitWord();
+  const ricavi=P*Q, costi=varPerUnit*Q+fissi, margTot=ricavi-costi;
+  $("p-ricavi").textContent=eur(ricavi);
+  $("p-costi").textContent=eur(costi);
+  $("p-margine").textContent=eur(margTot);
+
+  const t=(parseFloat($("target").value)||0)/100;
+  $("wi-target").textContent=$("target").value+"%";
+  const denom=1-provvPct-t;
+  const prezzoMin=denom>0?(varNonPct+quota)/denom:NaN;
+  $("wi-prezzo").textContent=denom>0?eur(prezzoMin):"—";
+
+  flash($("o-margine"));
+}
+
+$("quantita").addEventListener('input',()=>{const v=Math.max(1,parseFloat($("quantita").value)||1);$("q-slider").value=Math.min(v,200);calc();});
+$("q-slider").addEventListener('input',()=>{$("quantita").value=$("q-slider").value;calc();});
+
+addFix('Affitto, utenze, sede',2000);
+addFix('Software / strumenti',500);
+addFix('Gestione amministrativa',800);
+setMode('servizi');
+
+document.querySelectorAll('#prezzo,#quantita,#provv,#cac,[data-var],#target').forEach(el=>el.addEventListener('input',calc));
+calc();
+</script>
+</body>
+</html>
